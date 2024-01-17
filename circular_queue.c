@@ -33,9 +33,14 @@ void display(struct queue *q)
         //     printf("\n%d",q->data[i]);
         //     i=(i-1+size)%size;       // size is added because once the queue is empty and value is added again then rear will be zero 
         // }
-        for(i=q->rear;i!=q->front;i=(i-1+size)%size){
-            printf("\n%d",q->data[i]);
+        // for(i=q->rear;i!=q->front;i=(i-1+size)%size){
+        //     printf("\n%d",q->data[i]);
+        // }
+        for(i=q->front+1;i!=q->rear;i=(i+1+size)%size){
+            printf("%d\n",q->data[i]);
+            
         }
+        printf("%d\n",q->data[q->rear]);
     }
 }
 void dequeue(struct queue *q){
