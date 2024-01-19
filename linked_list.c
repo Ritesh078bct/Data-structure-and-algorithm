@@ -38,6 +38,10 @@ void display()
 {
     ptr = head;
     printf("The entered elements are:\n");
+    if (ptr == NULL)
+    {
+        printf("linked list is empty");
+    }
     while (ptr != NULL)
     {
         printf("%d\t", ptr->info);
@@ -53,21 +57,30 @@ void insertAtFront()
 }
 void insertAtLast()
 {
-    ptr = head;
     newptr = getnode();
-    while (ptr->next != NULL)
+    if (head != NULL)
     {
-        ptr = ptr->next;
+
+        ptr = head;
+        while (ptr->next != NULL)
+        {
+            ptr = ptr->next;
+        }
+        ptr->next = newptr;
+        printf("%d is added", newptr->info);
     }
-    ptr->next = newptr;
-    printf("%d  added", newptr->info);
+    else
+    {
+        head = newptr;
+        printf("%d is added", head->info);
+    }
 }
 void insertAnywhere()
 {
     int key;
+    if(head!=NULL){
     printf("enter key");
     scanf("%d", &key);
-    newptr = getnode();
     ptr = head;
     while (ptr != NULL && ptr->info != key)
     {
@@ -79,10 +92,15 @@ void insertAnywhere()
     }
     else
     {
+        newptr = getnode();
         newptr->next = ptr->next;
         ptr->next = newptr;
     }
     printf("%d added!", newptr->info);
+
+    }else{
+        printf("list is empty");
+    }
 }
 void insert()
 {
@@ -126,6 +144,7 @@ void deleteFromFront()
 }
 void deleteFromLast()
 {
+    prevptr = NULL;
     if (head == NULL)
     {
         printf("linked list is empty");
@@ -139,21 +158,29 @@ void deleteFromLast()
             ptr = ptr->next;
         }
         printf("%d is deleted", ptr->info);
-        prevptr->next = NULL;
+        if (!prevptr)
+        {
+            head = NULL;
+        }
+        else
+        {
+
+            prevptr->next = NULL;
+        }
         free(ptr);
     }
 }
 void deleteFromAnywhere()
 {
     int key;
-    printf("enter key\n");
-    scanf("%d", &key);
     if (head == NULL)
     {
         printf("linked list is empty");
     }
     else
     {
+        printf("enter key\n");
+        scanf("%d", &key);
         ptr = head;
         while (ptr != NULL && ptr->info != key)
         {
@@ -167,7 +194,10 @@ void deleteFromAnywhere()
         else
         {
             printf("%d is deleted:", ptr->info);
-            prevptr->next = ptr->next;
+            if (prevptr)
+                prevptr->next = ptr->next;
+            else
+                head = ptr->next;
             free(ptr);
         }
     }
@@ -203,7 +233,7 @@ int main()
 {
     int choice;
     create();
-    
+
     while (1)
     {
         system("cls");
