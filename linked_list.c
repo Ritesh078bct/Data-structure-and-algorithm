@@ -37,15 +37,16 @@ void create()
 void display()
 {
     ptr = head;
-    printf("The entered elements are:\n");
-    if (ptr == NULL)
-    {
-        printf("linked list is empty");
+    if(ptr==NULL){
+        printf("list is empty");
     }
+    else{
+    printf("The entered elements are:\n");
     while (ptr != NULL)
     {
         printf("%d\t", ptr->info);
         ptr = ptr->next;
+    }
     }
 }
 void insertAtFront()
