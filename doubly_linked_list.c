@@ -42,12 +42,16 @@ void create()
 }
 void display()
 {
+    if(head!=NULL){
     ptr = head;
     printf("data are:\n");
     while (ptr != NULL)
     {
-        printf("%d\n", ptr->data);
+        printf("%d\t", ptr->data);
         ptr = ptr->next;
+    }
+    }else{
+        printf("list is empty");
     }
 }
 void deleteFromFront()
@@ -58,37 +62,45 @@ void deleteFromFront()
     }
     else{
         ptr=head;
+        if(head->next!=NULL){
         head=head->next;
+        head->prev=NULL;
+        }else{
+            head=NULL;
+        }
         printf("%d is deleted",ptr->data);
         free(ptr);
-        head->prev=NULL;
     }
 }
 void deleteFromLast(){
     if(head==NULL)
     {
         printf("linked list is empty!!");
+    }else{
+    ptr=head; 
+    while(ptr->next!=NULL){
+        ptr=ptr->next;
     }
-    else{
-        ptr=head;
-        while(ptr->next!=NULL){
-            ptr=ptr->next;
-        }
-  printf("%d is deleted",ptr->data);
-        ptr->prev->next=NULL;
-        
-        free(ptr);
+    printf("%d is deleted",ptr->data);
+    if(ptr->prev!=NULL){
+    ptr->prev->next=NULL;
+    
+    }else{
+        head=NULL;
     }
+    free(ptr);
+    }
+    
 }
 void deleteFromAnywhere()
 {
     int key;
-    printf("enter key");
-    scanf("%d",&key);
     if(head==NULL){
         printf("linked list is empty");
     }
     else{
+        printf("enter key");
+        scanf("%d",&key);
         ptr=head;
         while(ptr!=NULL && ptr->data!=key){
             ptr=ptr->next;
@@ -96,9 +108,22 @@ void deleteFromAnywhere()
         if(ptr==NULL){
             printf("data with %d does not exist",key);
         }else{
-            ptr->prev->next=ptr->next;
-            ptr->next->prev=ptr->prev;
+            if(ptr->prev!=NULL){
+                if(ptr->next!=NULL){
+                        ptr->prev->next=ptr->next;
+                        ptr->next->prev=ptr->prev;
+                }else{
+                    ptr->prev->next=NULL;
+                }
 
+            }else{
+                if(ptr->next){
+                    ptr->next->prev=NULL;
+                    head=ptr->next;
+                }else{
+                    head=NULL;
+                }
+            }
             printf("%d is deleted",ptr->data);
             free(ptr);
         }
@@ -107,6 +132,7 @@ void deleteFromAnywhere()
 void delete()
 {
     int ch;
+    if(head!=NULL){
     while (1)
     {
         system("cls");
@@ -129,30 +155,41 @@ void delete()
         }
         getch();
     }
+    }else{
+        printf("doubly linked list is empty!!");
+    }
 }
 void insertAtFront()
 {
     newptr = getnode();
-    newptr->next = head;
-    head->prev = newptr;
-    head = newptr;
+    if(head!=NULL){
+            newptr->next = head;
+            head->prev = newptr;
+    }
     printf("%d is inserted",newptr->data);
+    head = newptr;
 }
 void insertAtLast()
 {
     newptr = getnode();
-    ptr = head;
-    while (ptr->next != NULL)
-    {
-        ptr = ptr->next;
+    if(head!=NULL){
+            ptr = head;
+            while (ptr->next != NULL)
+            {
+                ptr = ptr->next;
+            }
+            ptr->next = newptr;
+            newptr->prev = ptr;
+    }else{
+        head=newptr;
+        
     }
-    ptr->next = newptr;
-    newptr->prev = ptr;
     printf("%d is inserted",newptr->data);
 }
 void insertAnywhere()
 {
     int key;
+    if(head!=NULL){  
     newptr = getnode();
     ptr = head;
     printf("enter key:");
@@ -172,11 +209,15 @@ void insertAnywhere()
     newptr->prev = ptr;
     printf("%d is inserted",newptr->data);
     }
+    }else{
+        insertAtFront();  
+    }
         
 }
 void insert()
 {
     int ch;
+    if(head!=NULL){ //handling here is also works
     while (1)
     {
         system("cls");
@@ -198,6 +239,9 @@ void insert()
             return;
         }
         getch();
+    }
+    }else{
+        insertAtFront();///if the list is empty ,insert data at front directly.
     }
 }
 int main()
